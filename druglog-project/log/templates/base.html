@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div id="header">
+        <nav class="navbar navbar-expand-sm bg-dark">
+        <span class="logo">Drug Log</span>
+        {% if request.user.is_authenticated %}
+            <ul class="navbar-nav">
+                <li class="nav-item" {% if section == "dashboard" %}class="select"{% endif %}>
+                    <a class="nav-link" href="{% url 'dashboard' %}">My dashboard</a>
+                </li>
+                <li class="nav-item" {% if section == 'images' %}class="selected"{% endif %}>
+                    <a class="nav-link" href="#">Images</a>
+                </li>
+                <li class="nav-item" {% if section == 'people' %}class="selected"{% endif %}>
+                    <a class="nav-link" href="#">People</a>
+                </li>
+            </ul>
+        {% endif %}
+    </nav>
+            <span class="user">
+                {% if request.user.is_authenticated %}
+                Hello, {{ request.user.first_name }},
+                <a href="{% url 'logout' %}">Logout </a>
+                {% else %}
+                <a href="{% url 'login' %}">Login-in</a>
+                {% endif %}
+            </span>
+       
+    </div>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
+
